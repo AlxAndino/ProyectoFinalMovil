@@ -1,16 +1,18 @@
+import { updateTaskStatus } from '../store/tasksSlice';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { StyleSheet, Text, View } from 'react-native';
 
 import CustomButton from '../components/CustomButton';
 import StatusBadge from '../components/StatusBadge';
-import { useTasks } from '../context/TaskContext';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { colors } from '../theme/colors';
 import { RootStackParamList } from '../types/navigation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'TaskDetail'>;
 
 export default function TaskDetailScreen({ route, navigation }: Props) {
-  const { tasks, updateTaskStatus } = useTasks();
+  const tasks = useAppSelector((state) => state.tasks.items);
+  const dispatch = useAppDispatch();
   const task = tasks.find((item) => item.id === route.params.taskId);
 
   if (!task) {
@@ -28,7 +30,7 @@ export default function TaskDetailScreen({ route, navigation }: Props) {
         : task!.status === 'En proceso'
           ? 'Completado'
           : 'Pendiente';
-    updateTaskStatus(task!.id, nextStatus);
+    dispatch(updateTaskStatus({ id: task!.id, status: nextStatus }));
   }
 
   return (

@@ -1,11 +1,10 @@
 import { StyleSheet, Text, View } from 'react-native';
-
 import CustomButton from '../components/CustomButton';
-import { useTasks } from '../context/TaskContext';
+import { useAppSelector } from '../store/hooks';
 import { colors } from '../theme/colors';
 
 export default function HomeScreen({ navigation }: any) {
-  const { tasks } = useTasks();
+  const tasks = useAppSelector((state) => state.tasks.items);
   const pending = tasks.filter((task) => task.status === 'Pendiente').length;
   const inProgress = tasks.filter((task) => task.status === 'En proceso').length;
   const completed = tasks.filter((task) => task.status === 'Completado').length;
@@ -14,7 +13,6 @@ export default function HomeScreen({ navigation }: any) {
     <View style={styles.container}>
       <Text style={styles.title}>Resumen de operaciones</Text>
       <Text style={styles.subtitle}>Estado actual de los pendientes técnicos</Text>
-
       <View style={styles.row}>
         <View style={[styles.summary, { borderTopColor: colors.pending }]}>
           <Text style={styles.number}>{pending}</Text>
@@ -29,7 +27,6 @@ export default function HomeScreen({ navigation }: any) {
           <Text style={styles.label}>Completados</Text>
         </View>
       </View>
-
       <CustomButton title="Ver pendientes" onPress={() => navigation.navigate('Pendientes')} />
       <CustomButton
         title="Crear nuevo pendiente"
@@ -41,11 +38,44 @@ export default function HomeScreen({ navigation }: any) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 20, backgroundColor: colors.background },
-  title: { fontSize: 26, fontWeight: 'bold', color: colors.primary, marginTop: 20 },
-  subtitle: { color: colors.textSecondary, marginTop: 5, marginBottom: 24 },
-  row: { flexDirection: 'row', justifyContent: 'space-between', marginBottom: 30, gap: 8 },
-  summary: { flex: 1, backgroundColor: colors.surface, padding: 12, borderRadius: 10, borderTopWidth: 5, alignItems: 'center' },
-  number: { color: colors.text, fontSize: 26, fontWeight: 'bold' },
-  label: { color: colors.textSecondary, fontSize: 12, textAlign: 'center' },
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: colors.background
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: 'bold',
+    color: colors.primary,
+    marginTop: 20
+  },
+  subtitle: {
+    color: colors.textSecondary,
+    marginTop: 5,
+    marginBottom: 24
+  },
+  row: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 30,
+    gap: 8
+  },
+  summary: {
+    flex: 1,
+    backgroundColor: colors.surface,
+    padding: 12,
+    borderRadius: 10,
+    borderTopWidth: 5,
+    alignItems: 'center'
+  },
+  number: {
+    color: colors.text,
+    fontSize: 26,
+    fontWeight: 'bold'
+  },
+  label: {
+    color: colors.textSecondary,
+    fontSize: 12,
+    textAlign: 'center'
+  },
 });

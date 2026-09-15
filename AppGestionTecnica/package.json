@@ -6,7 +6,9 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "typecheck": "tsc --noEmit",
+    "test:redux": "node scripts/test-redux.cjs"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.3",
@@ -18,7 +20,9 @@
     "react": "19.1.0",
     "react-native": "0.81.5",
     "react-native-safe-area-context": "~5.6.0",
-    "react-native-screens": "~4.16.0"
+    "react-native-screens": "~4.16.0",
+    "@reduxjs/toolkit": "^2.11.0",
+    "react-redux": "^9.2.0"
   },
   "devDependencies": {
     "@types/react": "~19.1.0",

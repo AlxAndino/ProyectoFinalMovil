@@ -2,11 +2,11 @@ import { FlatList, StyleSheet, Text, View } from 'react-native';
 
 import CustomButton from '../components/CustomButton';
 import TaskCard from '../components/TaskCard';
-import { useTasks } from '../context/TaskContext';
+import { useAppSelector } from '../store/hooks';
 import { colors } from '../theme/colors';
 
 export default function TaskListScreen({ navigation }: any) {
-  const { tasks } = useTasks();
+  const tasks = useAppSelector((state) => state.tasks.items);
 
   return (
     <View style={styles.container}>
