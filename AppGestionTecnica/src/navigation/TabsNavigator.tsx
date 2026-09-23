@@ -1,14 +1,23 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useEffect } from 'react';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import TaskListScreen from '../screens/TaskListScreen';
+import { useAppDispatch } from '../store/hooks';
+import { fetchTasks } from '../store/tasksSlice';
 import { colors } from '../theme/colors';
 import { MainTabParamList } from '../types/navigation';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
 export default function TabsNavigator() {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchTasks());
+  }, [dispatch]);
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({

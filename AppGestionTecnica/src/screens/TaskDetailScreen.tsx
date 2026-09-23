@@ -1,6 +1,6 @@
-import { updateTaskStatus } from '../store/tasksSlice';
+import { changeTaskStatus } from '../store/tasksSlice';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { StyleSheet, Text, View } from 'react-native';
+import { Alert, StyleSheet, Text, View } from 'react-native';
 
 import CustomButton from '../components/CustomButton';
 import StatusBadge from '../components/StatusBadge';
@@ -23,14 +23,18 @@ export default function TaskDetailScreen({ route, navigation }: Props) {
     );
   }
 
-  function changeStatus() {
+  async function changeStatus() {
     const nextStatus =
       task!.status === 'Pendiente'
         ? 'En proceso'
         : task!.status === 'En proceso'
           ? 'Completado'
           : 'Pendiente';
-    dispatch(updateTaskStatus({ id: task!.id, status: nextStatus }));
+    try {
+      await dispatch(changeTaskStatus({ id: task!.id, status: nextStatus })).unwrap();
+    } catch (message) {
+      Alert.alert('No se pudo actualizar', typeof message === 'string' ? message : 'Inténtelo nuevamente.');
+    }
   }
 
   return (

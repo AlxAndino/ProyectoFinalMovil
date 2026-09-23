@@ -1,4 +1,4 @@
-import { addTask } from '../store/tasksSlice';
+import { createTask } from '../store/tasksSlice';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useState } from 'react';
 import { Alert, ScrollView, StyleSheet, Text, View } from 'react-native';
@@ -21,7 +21,7 @@ export default function NewTaskScreen({ navigation }: Props) {
   const [shift, setShift] = useState<WorkShift>('Mañana');
   const [error, setError] = useState('');
 
-  function saveTask() {
+  async function saveTask() {
     if (!title.trim() || !description.trim() || !responsible.trim() || !phone.trim()) {
       setError('Todos los campos son obligatorios');
       return;
@@ -30,17 +30,21 @@ export default function NewTaskScreen({ navigation }: Props) {
       setError('Ingrese un teléfono válido de 8 dígitos');
       return;
     }
-    dispatch(addTask({
-      title: title.trim(),
-      description: description.trim(),
-      responsible: responsible.trim(),
-      contactPhone: phone.trim(),
-      priority,
-      status: 'Pendiente',
-      shift,
-    }));
-    Alert.alert('Registro exitoso', 'El pendiente técnico fue creado.');
-    navigation.goBack();
+    try {
+      await dispatch(createTask({
+        title: title.trim(),
+        description: description.trim(),
+        responsible: responsible.trim(),
+        contactPhone: phone.trim(),
+        priority,
+        status: 'Pendiente',
+        shift,
+      })).unwrap();
+      Alert.alert('Registro exitoso', 'El pendiente técnico fue guardado en Supabase.');
+      navigation.goBack();
+    } catch (message) {
+      setError(typeof message === 'string' ? message : 'No se pudo guardar el pendiente.');
+    }
   }
   return (
     <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
