@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "AppGestionTecnica",
-    "slug": "AppGestionTecnica",
+    "slug": "alejandro-andino",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -25,6 +25,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "9fd1e7cf-5928-4b05-b8c1-be4a8478cbd9"
+      }
+    },
+    "owner": "oscarandino"
   }
 }
