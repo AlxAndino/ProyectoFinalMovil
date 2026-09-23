@@ -4,7 +4,7 @@ import {
     Text,
 } from 'react-native';
 
-import { colors } from '../theme/colors';
+import { useTheme } from '../context/ThemeContext';
 
 type CustomButtonProps = {
     title: string;
@@ -17,16 +17,23 @@ export default function CustomButton({
     onPress,
     variant = 'primary',
 }: CustomButtonProps) {
+    const { colors } = useTheme();
+    const backgroundColor = variant === 'primary'
+        ? colors.primary
+        : variant === 'secondary'
+            ? colors.secondary
+            : colors.danger;
+
     return (
         <Pressable
             onPress={onPress}
             style={({ pressed }) => [
                 styles.button,
-                styles[variant],
+                { backgroundColor },
                 pressed && styles.pressed,
             ]}
         >
-            <Text style={styles.text}>{title}</Text>
+            <Text style={[styles.text, { color: colors.white }]}>{title}</Text>
         </Pressable>
     );
 }
@@ -39,20 +46,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginVertical: 6,
     },
-    primary: {
-        backgroundColor: colors.primary,
-    },
-    secondary: {
-        backgroundColor: colors.secondary,
-    },
-    danger: {
-        backgroundColor: colors.danger,
-    },
     pressed: {
         opacity: 0.7,
     },
     text: {
-        color: colors.white,
         fontSize: 16,
         fontWeight: 'bold',
     },

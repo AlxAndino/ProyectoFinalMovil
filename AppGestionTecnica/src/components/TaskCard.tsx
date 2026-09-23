@@ -5,7 +5,7 @@ import {
     View,
 } from 'react-native';
 
-import { colors } from '../theme/colors';
+import { useTheme } from '../context/ThemeContext';
 import { TechnicalTask } from '../types/task';
 import StatusBadge from './StatusBadge';
 
@@ -18,6 +18,7 @@ export default function TaskCard({
     task,
     onPress,
 }: TaskCardProps) {
+    const { colors } = useTheme();
     const priorityColor =
         task.priority === 'Crítica'
             ? colors.critical
@@ -32,20 +33,20 @@ export default function TaskCard({
             onPress={onPress}
             style={({ pressed }) => [
                 styles.card,
-                { borderLeftColor: priorityColor },
+                { borderLeftColor: priorityColor, backgroundColor: colors.surface },
                 pressed && styles.pressed,
             ]}
         >
             <View style={styles.header}>
-                <Text style={styles.title}>{task.title}</Text>
+                <Text style={[styles.title, { color: colors.text }]}>{task.title}</Text>
                 <StatusBadge status={task.status} />
             </View>
 
-            <Text style={styles.description}>
+            <Text style={[styles.description, { color: colors.textSecondary }]}>
                 {task.description}
             </Text>
 
-            <Text style={styles.detail}>
+            <Text style={[styles.detail, { color: colors.text }]}>
                 Responsable: {task.responsible}
             </Text>
 
@@ -63,7 +64,6 @@ export default function TaskCard({
 
 const styles = StyleSheet.create({
     card: {
-        backgroundColor: colors.surface,
         borderLeftWidth: 6,
         borderRadius: 10,
         padding: 14,
@@ -80,16 +80,13 @@ const styles = StyleSheet.create({
     },
     title: {
         flex: 1,
-        color: colors.text,
         fontSize: 17,
         fontWeight: 'bold',
     },
     description: {
-        color: colors.textSecondary,
         marginVertical: 8,
     },
     detail: {
-        color: colors.text,
         marginBottom: 5,
     },
     priority: {

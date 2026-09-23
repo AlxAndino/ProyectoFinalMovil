@@ -6,7 +6,7 @@ import {
     View,
 } from 'react-native';
 
-import { colors } from '../theme/colors';
+import { useTheme } from '../context/ThemeContext';
 
 type CustomInputProps = {
     label: string;
@@ -29,14 +29,17 @@ export default function CustomInput({
     keyboardType = 'default',
     multiline = false,
 }: CustomInputProps) {
+    const { colors } = useTheme();
+
     return (
         <View style={styles.container}>
-            <Text style={styles.label}>{label}</Text>
+            <Text style={[styles.label, { color: colors.text }]}>{label}</Text>
             <TextInput
                 style={[
                     styles.input,
+                    { backgroundColor: colors.surface, borderColor: colors.border, color: colors.text },
                     multiline && styles.multiline,
-                    error ? styles.inputError : undefined,
+                    error ? { borderColor: colors.danger } : undefined,
                 ]}
                 placeholder={placeholder}
                 value={value}
@@ -44,10 +47,11 @@ export default function CustomInput({
                 secureTextEntry={secureTextEntry}
                 keyboardType={keyboardType}
                 multiline={multiline}
+                placeholderTextColor={colors.textSecondary}
             />
 
             {error ? (
-                <Text style={styles.error}>{error}</Text>
+                <Text style={[styles.error, { color: colors.danger }]}>{error}</Text>
             ) : null}
         </View>
     );
@@ -59,30 +63,22 @@ const styles = StyleSheet.create({
         marginBottom: 12,
     },
     label: {
-        color: colors.text,
         fontSize: 15,
         fontWeight: '600',
         marginBottom: 6,
     },
     input: {
         borderWidth: 1,
-        borderColor: colors.border,
         borderRadius: 10,
-        backgroundColor: colors.surface,
         paddingHorizontal: 12,
         paddingVertical: 12,
         fontSize: 16,
-        color: colors.text,
     },
     multiline: {
         minHeight: 90,
         textAlignVertical: 'top',
     },
-    inputError: {
-        borderColor: colors.danger,
-    },
     error: {
-        color: colors.danger,
         marginTop: 4,
     },
 });

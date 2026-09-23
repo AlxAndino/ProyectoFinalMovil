@@ -1,17 +1,18 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useEffect } from 'react';
+import { useTheme } from '../context/ThemeContext';
 import HomeScreen from '../screens/HomeScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import TaskListScreen from '../screens/TaskListScreen';
 import { useAppDispatch } from '../store/hooks';
 import { fetchTasks } from '../store/tasksSlice';
-import { colors } from '../theme/colors';
 import { MainTabParamList } from '../types/navigation';
 
 const Tab = createBottomTabNavigator<MainTabParamList>();
 
 export default function TabsNavigator() {
+  const { colors } = useTheme();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -24,6 +25,7 @@ export default function TabsNavigator() {
         headerShown: false,
         tabBarActiveTintColor: colors.primary,
         tabBarInactiveTintColor: colors.textSecondary,
+        tabBarStyle: { backgroundColor: colors.surface, borderTopColor: colors.border },
         tabBarIcon: ({ color, size }) => {
           const icon = route.name === 'Inicio'
             ? 'home'

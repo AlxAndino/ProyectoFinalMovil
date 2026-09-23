@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from 'react-native';
-import { colors } from '../theme/colors';
+import { useTheme } from '../context/ThemeContext';
 import { TaskStatus } from '../types/task';
 
 type StatusBadgeProps = {
@@ -9,6 +9,7 @@ type StatusBadgeProps = {
 export default function StatusBadge({
     status,
 }: StatusBadgeProps) {
+    const { colors } = useTheme();
     const backgroundColor =
         status === 'Completado'
             ? colors.completed
@@ -18,7 +19,7 @@ export default function StatusBadge({
 
     return (
         <View style={[styles.badge, { backgroundColor }]}>
-            <Text style={styles.text}>{status}</Text>
+            <Text style={[styles.text, { color: colors.white }]}>{status}</Text>
         </View>
     );
 }
@@ -31,7 +32,6 @@ const styles = StyleSheet.create({
         borderRadius: 20,
     },
     text: {
-        color: colors.white,
         fontSize: 12,
         fontWeight: 'bold',
     },
