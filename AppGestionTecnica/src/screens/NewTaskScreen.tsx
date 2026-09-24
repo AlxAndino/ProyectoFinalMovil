@@ -41,7 +41,7 @@ export default function NewTaskScreen({ navigation }: Props) {
         status: 'Pendiente',
         shift,
       })).unwrap();
-      Alert.alert('Registro exitoso', 'El pendiente técnico fue guardado en Supabase.');
+      Alert.alert('Registro exitoso', 'El pendiente técnico fue guardado correctamente.');
       navigation.goBack();
     } catch (message) {
       setError(typeof message === 'string' ? message : 'No se pudo guardar el pendiente.');

@@ -33,7 +33,7 @@ export default function LoginScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Image source={require('../../assets/icon.png')} style={styles.logo} />
+      <Image source={require('../../assets/logo.png')} style={styles.logo} resizeMode="contain" />
       <Text style={[styles.title, { color: colors.primary }]}>Gestión Técnica</Text>
       <Text style={[styles.subtitle, { color: colors.textSecondary }]}>Control de turnos y pendientes</Text>
 
@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
     height: 90,
     alignSelf: 'center',
     marginBottom: 18,
-    borderRadius: 18
   },
   title: {
     fontSize: 30,
